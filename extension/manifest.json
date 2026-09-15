@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "StudyMind for Classroom",
+  "version": "1.0",
+  "description": "Capture Google Classroom content into StudyMind and chat/quiz yourself on it.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://classroom.google.com/*", "http://localhost:3000/*"],
+  "action": { "default_popup": "popup.html" },
+  "content_scripts": [
+    {
+      "matches": ["https://classroom.google.com/*"],
+      "js": ["content_script.js"]
+    }
+  ],
+  "background": { "service_worker": "background.js" }
+}

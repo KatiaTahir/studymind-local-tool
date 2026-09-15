@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>StudyMind - Extension Guide</title>
+<script>(function(){try{document.documentElement.setAttribute('data-theme', localStorage.getItem('studymind_theme')||'dark');}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <span class="brand">StudyMind</span>
+    <nav>
+      <a href="chat.html">Study</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="extension-guide.html" class="active">Extension</a>
+      <a href="#" id="logout-btn">Log Out</a>
+      <button id="theme-toggle-btn" class="theme-toggle" type="button" aria-label="Toggle dark/light mode">🌙</button>
+    </nav>
+  </div>
+  <div class="container">
+    <h1>Chrome Extension Guide</h1>
+    <p class="muted">Pull assignments and materials straight from Google Classroom into StudyMind, without downloading and re-uploading files.</p>
+
+    <div id="browser-warning" class="card hidden" style="border-color: var(--danger);">
+      <h2 style="color: var(--danger);">⚠️ You're not using Google Chrome</h2>
+      <p>This extension is built for Chrome (Manifest V3) and only installs and runs correctly in Chrome or another
+      Chromium-based browser (Edge, Brave, Opera). It will not work in Firefox or Safari. If you want to use the
+      extension, open this page in Chrome instead.</p>
+    </div>
+
+    <div class="card">
+      <h2>1. Install it</h2>
+      <div style="margin-bottom: 16px;">
+        <a href="studymind-extension.zip" download>
+          <button type="button">⬇ Download Extension (.zip)</button>
+        </a>
+      </div>
+      <ol>
+        <li>Unzip the downloaded file. You should get a folder with <code>manifest.json</code> inside it.</li>
+        <li>Open <code>chrome://extensions</code> in a new tab.</li>
+        <li>Turn on <strong>Developer mode</strong> (top-right toggle).</li>
+        <li>Click <strong>Load unpacked</strong>.</li>
+        <li>Select the unzipped folder.</li>
+      </ol>
+      <p class="muted">You should see "StudyMind for Classroom" appear in your extensions list. Pin it to your
+      toolbar for easy access (click the puzzle-piece icon in Chrome's toolbar, then the pin next to StudyMind).</p>
+    </div>
+
+    <div class="card">
+      <h2>2. Log in</h2>
+      <ol>
+        <li>Click the StudyMind icon in your Chrome toolbar.</li>
+        <li>Enter the same email and password you use on the StudyMind web app.</li>
+        <li>If you don't have an account yet, create one on the web app first, then come back and log in here.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>3. Save a Classroom page</h2>
+      <ol>
+        <li>Go to <code>classroom.google.com</code> and open an assignment or posted material.</li>
+        <li>Click the StudyMind icon, then <strong>"Save this Classroom page to StudyMind"</strong>.</li>
+        <li>The page's text is pulled in and uploaded as a new document, ready to chat with, quiz on, or summarize
+        back in the web app.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>4. Quick chat from the popup</h2>
+      <p>The popup also has a small chat box so you can ask a question about your notes without switching to the
+      web app. It searches all of your uploaded notes, same as the "Ask About My Notes" tool on the Study page.</p>
+    </div>
+
+    <div class="card">
+      <h2>Troubleshooting</h2>
+      <p><strong>"Could not read content from this page."</strong><br/>
+      The extension only activates on <code>classroom.google.com</code>. If you just installed it, refresh the
+      Classroom tab first, since content scripts only start running on pages loaded after install.</p>
+
+      <p><strong>Login says "Invalid email or password" but I'm sure it's right.</strong><br/>
+      Make sure the backend server is actually running (<code>npm start</code> in the <code>backend/</code> folder).
+      The extension talks to <code>http://localhost:3000</code>, so if that's not running, requests will fail.</p>
+
+      <p><strong>Nothing happens when I click the extension icon.</strong><br/>
+      Check <code>chrome://extensions</code> for an error badge on the StudyMind card. If you edited any extension
+      file, click the refresh icon on the card to reload it.</p>
+
+      <p><strong>The popup shows the login screen every time.</strong><br/>
+      Your login token may have expired (tokens last 7 days) or Chrome may have cleared extension storage. Just log
+      in again.</p>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>StudyMind - Study</title>
+<script>(function(){try{document.documentElement.setAttribute('data-theme', localStorage.getItem('studymind_theme')||'dark');}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <span class="brand">StudyMind</span>
+    <nav>
+      <a href="chat.html" class="active">Study</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="extension-guide.html">Extension</a>
+      <a href="#" id="logout-btn">Log Out</a>
+      <button id="theme-toggle-btn" class="theme-toggle" type="button" aria-label="Toggle dark/light mode">🌙</button>
+    </nav>
+  </div>
+
+  <div class="container wide">
+    <div class="study-layout">
+
+      <!-- sidebar: upload, documents, and tool switcher, all compact so the stage
+           on the right stays the focus -->
+      <aside class="study-sidebar">
+        <div class="card compact">
+          <h3>Upload notes</h3>
+          <form id="upload-form">
+            <input id="doc-title" type="text" placeholder="Title (optional)" />
+            <input id="doc-file" type="file" accept=".pdf,.txt,application/pdf,text/plain" />
+            <p class="muted" style="margin: -4px 0 8px; font-size: 0.8rem;">(or paste text below)</p>
+            <textarea id="doc-text" placeholder="Paste your notes here..." style="min-height: 60px;"></textarea>
+            <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+              <button type="submit" class="small">Upload</button>
+              <span id="upload-status" class="muted" style="font-size: 0.8rem;"></span>
+            </div>
+          </form>
+        </div>
+
+        <div class="card compact">
+          <div class="doc-list-header">
+            <h3 style="margin: 0;">Your documents</h3>
+          </div>
+          <div class="doc-list-actions" style="margin: 6px 0;">
+            <span id="doc-selected-count" class="muted"></span>
+            <button type="button" id="doc-select-all" class="ghost small">All</button>
+            <button type="button" id="doc-select-none" class="ghost small">None</button>
+          </div>
+          <ul id="doc-list" class="doc-list"></ul>
+        </div>
+
+        <div class="card compact">
+          <h3>Study tools</h3>
+          <nav class="tool-nav" id="action-grid">
+            <button type="button" class="tool-nav-item" data-panel="ask-notes" data-label="Ask About My Notes">
+              <span class="icon">📚</span> Ask About My Notes
+            </button>
+            <button type="button" class="tool-nav-item" data-panel="ask-anything" data-label="Ask the AI Anything">
+              <span class="icon">💬</span> Ask the AI Anything
+            </button>
+            <button type="button" class="tool-nav-item" data-panel="summarize" data-label="Summarize">
+              <span class="icon">📝</span> Summarize
+            </button>
+            <button type="button" class="tool-nav-item" data-panel="quiz" data-label="Generate Quiz">
+              <span class="icon">❓</span> Generate Quiz
+            </button>
+            <button type="button" class="tool-nav-item" data-panel="flashcards" data-label="Flashcards">
+              <span class="icon">🗂️</span> Flashcards
+            </button>
+            <button type="button" class="tool-nav-item unique" data-panel="mnemonic" data-label="Mnemonic Maker">
+              <span class="icon">🧠</span> Mnemonic Maker
+            </button>
+            <button type="button" class="tool-nav-item" data-panel="history" data-label="History">
+              <span class="icon">🕑</span> History
+            </button>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- stage: the big output area. whichever tool is selected renders here -->
+      <main class="study-stage card">
+        <h2 id="stage-title">Ask About My Notes</h2>
+
+        <!-- ask about my notes -->
+        <div class="panel active" id="panel-ask-notes">
+          <p id="notes-scope-hint" class="muted"></p>
+          <div class="topic-picker">
+            <select id="notes-topic-select">
+              <option value="">Choose an AI-suggested topic…</option>
+            </select>
+            <div class="or-row">or ask your own</div>
+          </div>
+          <div id="notes-chat-log" class="chat-log stage-log"></div>
+          <form id="notes-chat-form" class="chat-input-row">
+            <textarea id="notes-question-input" placeholder="Ask something about your notes..."></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+
+        <!-- ask the ai anything -->
+        <div class="panel" id="panel-ask-anything">
+          <p class="muted">Not grounded in your notes, just a general-purpose chat with the local AI model.</p>
+          <div id="general-chat-log" class="chat-log stage-log"></div>
+          <form id="general-chat-form" class="chat-input-row">
+            <textarea id="general-question-input" placeholder="Ask anything..."></textarea>
+            <button type="submit">Send</button>
+          </form>
+        </div>
+
+        <!-- summarize -->
+        <div class="panel" id="panel-summarize">
+          <div class="stage-controls">
+            <select id="summarize-doc-select">
+              <option value="">All my notes</option>
+            </select>
+            <button type="button" id="summarize-btn">Summarize</button>
+          </div>
+          <div id="summarize-result" class="stage-output"></div>
+        </div>
+
+        <!-- quiz -->
+        <div class="panel" id="panel-quiz">
+          <div class="stage-controls">
+            <select id="quiz-doc-select">
+              <option value="">All my notes</option>
+            </select>
+            <button type="button" id="quiz-generate-btn">Generate Quiz</button>
+            <button type="button" id="quiz-due-btn" class="ghost">Review Due Cards</button>
+          </div>
+          <p class="muted" style="margin: 4px 0 0; font-size: 0.85rem;">Multiple choice - pick an answer and it's graded right away, then saved to your history and streak.</p>
+          <div id="quiz-result" class="stage-output"></div>
+        </div>
+
+        <!-- flashcards -->
+        <div class="panel" id="panel-flashcards">
+          <div class="stage-controls">
+            <select id="flashcards-doc-select">
+              <option value="">All my notes</option>
+            </select>
+            <button type="button" id="flashcards-generate-btn">Generate Flashcards</button>
+            <span class="muted" style="font-size: 0.85rem;">Click a card to flip it.</span>
+          </div>
+          <div id="flashcards-result" class="flashcard-grid stage-output"></div>
+        </div>
+
+        <!-- mnemonic maker -->
+        <div class="panel" id="panel-mnemonic">
+          <div class="topic-picker">
+            <select id="mnemonic-topic-select">
+              <option value="">Choose an AI-suggested topic…</option>
+            </select>
+            <div class="or-row">or type your own</div>
+            <input id="mnemonic-topic-input" type="text" placeholder="e.g. mitochondria, the French Revolution..." style="margin-bottom: 0;" />
+          </div>
+          <button type="button" id="mnemonic-generate-btn" style="margin-top: 12px;">Generate Mnemonic</button>
+          <div id="mnemonic-result" class="stage-output"></div>
+        </div>
+
+        <!-- history -->
+        <div class="panel" id="panel-history">
+          <div class="stage-controls">
+            <p class="muted" style="margin: 0;">Everything you've asked, both notes-grounded and general chat.</p>
+            <button type="button" id="history-refresh-btn" class="ghost small">Refresh</button>
+          </div>
+          <div id="history-result" class="stage-output"></div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

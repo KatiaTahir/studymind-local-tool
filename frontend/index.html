@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>StudyMind - Log In</title>
+<script>(function(){try{document.documentElement.setAttribute('data-theme', localStorage.getItem('studymind_theme')||'dark');}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <span class="brand">StudyMind</span>
+    <button id="theme-toggle-btn" class="theme-toggle" type="button" aria-label="Toggle dark/light mode">🌙</button>
+  </div>
+  <div class="container" style="max-width: 420px;">
+    <div class="card">
+      <h1>Welcome to StudyMind</h1>
+      <p class="muted">Chat with your notes. Retain what you learn.</p>
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <button id="mode-login" class="secondary active">Log In</button>
+        <button id="mode-signup" class="secondary">Sign Up</button>
+      </div>
+      <form id="auth-form">
+        <input id="email" type="email" placeholder="Email" required />
+        <input id="password" type="password" placeholder="Password (min 8 characters)" required minlength="8" />
+        <div id="auth-error" class="error"></div>
+        <button id="submit-btn" type="submit">Log In</button>
+      </form>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>StudyMind - Dashboard</title>
+<script>(function(){try{document.documentElement.setAttribute('data-theme', localStorage.getItem('studymind_theme')||'dark');}catch(e){}})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+  <div class="topbar">
+    <span class="brand">StudyMind</span>
+    <nav>
+      <a href="chat.html">Study</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="extension-guide.html">Extension</a>
+      <a href="#" id="logout-btn">Log Out</a>
+      <button id="theme-toggle-btn" class="theme-toggle" type="button" aria-label="Toggle dark/light mode">🌙</button>
+    </nav>
+  </div>
+  <div class="container">
+    <h1>Retention Dashboard</h1>
+    <div id="dashboard-error" class="error"></div>
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="value" id="streak-value">-</div>
+        <div class="label">Day study streak</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Accuracy per topic</h2>
+      <canvas id="accuracy-chart" height="120"></canvas>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="card">
+        <h2>Topics you're weak on</h2>
+        <p class="muted" style="margin-top: -6px;">Lowest quiz accuracy, once there's enough answers to tell.</p>
+        <ul id="weak-topics-list" class="plain-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Questions you ask a lot</h2>
+        <p class="muted" style="margin-top: -6px;">Quiz questions that keep coming up for you.</p>
+        <ul id="most-asked-list" class="plain-list"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Recently asked</h2>
+        <p class="muted" style="margin-top: -6px;">Your last few questions, from both notes and general chat.</p>
+        <ul id="recent-history-list" class="plain-list"></ul>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

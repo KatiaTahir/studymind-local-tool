@@ -1,0 +1,10 @@
+node_modules/
+__pycache__/
+*.pyc
+venv/
+.pytest_cache/
+.env
+chroma_data/
+backend/uploads/*
+!backend/uploads/.gitkeep
+*.log

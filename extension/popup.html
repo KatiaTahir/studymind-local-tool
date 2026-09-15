@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>StudyMind</title>
+<style>
+  body { width: 320px; font-family: -apple-system, Arial, sans-serif; background: #0f1220; color: #e8e9f3; margin: 0; padding: 14px; }
+  h2 { font-size: 1rem; margin: 0 0 10px; color: #6c8bff; }
+  input, textarea, button { width: 100%; box-sizing: border-box; margin-bottom: 8px; padding: 8px; border-radius: 6px; border: 1px solid #333a5c; background: #202544; color: #e8e9f3; font-size: 0.9rem; }
+  button { background: #6c8bff; color: #0f1220; font-weight: 600; border: none; cursor: pointer; }
+  .muted { color: #9096b5; font-size: 0.8rem; }
+  .error { color: #ff6b6b; font-size: 0.8rem; }
+  .hidden { display: none; }
+  .row { display: flex; gap: 6px; }
+  .row button { flex: 1; }
+  #chat-log { max-height: 160px; overflow-y: auto; margin-bottom: 8px; }
+  .msg { padding: 6px 8px; border-radius: 6px; margin-bottom: 6px; background: #202544; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+  <div id="login-view">
+    <h2>Log in to StudyMind</h2>
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button id="login-btn">Log In</button>
+    <div id="login-error" class="error"></div>
+    <p class="muted">Log in on the web app first if you don't have an account yet.</p>
+  </div>
+
+  <div id="main-view" class="hidden">
+    <h2>StudyMind</h2>
+    <button id="open-webapp-btn" style="background:transparent; border:1px solid #333a5c; color:#e8e9f3;">Open StudyMind ↗</button>
+    <button id="save-page-btn">Save this Classroom page to StudyMind</button>
+    <div id="save-status" class="muted"></div>
+
+    <h2>Quick chat</h2>
+    <div id="chat-log"></div>
+    <div class="row">
+      <input id="question-input" type="text" placeholder="Ask about your notes..." />
+      <button id="ask-btn" style="flex: 0 0 60px;">Ask</button>
+    </div>
+
+    <button id="logout-btn" class="muted" style="background:transparent; border:1px solid #333a5c; color:#9096b5;">Log Out</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

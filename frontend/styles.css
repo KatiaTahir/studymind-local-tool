@@ -1,0 +1,381 @@
+:root,
+:root[data-theme="dark"] {
+  /* True black/grey dark theme — no navy tint. */
+  --bg: #0a0a0b;
+  --panel: #161617;
+  --panel-light: #1f1f21;
+  --border: #313133;
+  --text: #ededee;
+  --muted: #9a9a9e;
+  --accent: #6c8bff;
+  --accent-2: #4fd1c0;
+  --danger: #ff6b6b;
+  --on-accent: #0a0a0b;
+  --radius: 12px;
+  --font-body: "Inter", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Sora", var(--font-body);
+}
+
+:root[data-theme="light"] {
+  --bg: #f3f4fa;
+  --panel: #ffffff;
+  --panel-light: #f0f1f9;
+  --border: #dde0f0;
+  --text: #1b1e2b;
+  --muted: #5b6079;
+  --accent: #4f6bdb;
+  --accent-2: #16897b;
+  --danger: #c53049;
+  --on-accent: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-family: var(--font-body);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+h1, h2, h3, .brand { font-family: var(--font-display); }
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  font-size: 1.1rem;
+  line-height: 1;
+  margin-left: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.theme-toggle:hover { filter: none; border-color: var(--accent); }
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 28px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar .brand { font-weight: 700; font-size: 1.25rem; color: var(--accent); letter-spacing: -0.01em; }
+
+.topbar nav { display: flex; align-items: center; }
+.topbar nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+.topbar nav a.active, .topbar nav a:hover { color: var(--text); }
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+.container.narrow { max-width: 420px; }
+.container.wide { max-width: 1320px; }
+
+.card {
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+.card.compact { padding: 16px; margin-bottom: 16px; }
+.card.compact h3 { margin: 0 0 10px; }
+
+/* ---- study page layout: a slim sidebar for controls, and one large stage that's
+   the actual focus of the page ---- */
+.study-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.study-sidebar { min-width: 0; }
+
+.study-stage {
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+}
+.study-stage h2 {
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.study-stage .panel { flex: 1; display: none; flex-direction: column; }
+.study-stage .panel.active { display: flex; }
+
+.stage-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.stage-controls select { width: auto; min-width: 200px; margin-bottom: 0; }
+.stage-output { margin-top: 20px; flex: 1; }
+
+.stage-log { flex: 1; min-height: 380px; max-height: 65vh; font-size: 1.02rem; }
+
+@media (max-width: 860px) {
+  .study-layout { grid-template-columns: 1fr; }
+  .study-stage { min-height: 480px; }
+}
+
+h1 { font-size: 1.6rem; margin-top: 0; font-weight: 700; }
+h2 { font-size: 1.1rem; color: var(--text); font-weight: 600; margin: 0 0 14px; }
+h3 { font-size: 0.95rem; font-weight: 600; margin: 0 0 8px; }
+
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel-light);
+  color: var(--text);
+  padding: 10px 12px;
+}
+
+textarea { width: 100%; resize: vertical; min-height: 90px; }
+input, select { width: 100%; margin-bottom: 12px; }
+
+/* real file inputs render their own os button, style it via ::file-selector-button
+   instead of fighting the native chrome so it matches the rest of the ui */
+input[type="file"] {
+  padding: 8px;
+  cursor: pointer;
+}
+input[type="file"]::file-selector-button {
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 8px 14px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: filter 0.1s ease;
+}
+input[type="file"]::file-selector-button:hover { filter: brightness(1.08); }
+
+button {
+  background: var(--accent);
+  border: none;
+  color: var(--on-accent);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 18px;
+  transition: filter 0.1s ease, transform 0.05s ease;
+}
+button:hover { filter: brightness(1.08); }
+button:active { transform: translateY(1px); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.secondary { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+button.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+button.small { padding: 6px 12px; font-size: 0.85rem; }
+
+.error { color: var(--danger); margin: 8px 0; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+.hidden { display: none !important; }
+
+.doc-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.doc-list-actions { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+.doc-list-actions button { padding: 4px 10px; font-size: 0.8rem; }
+
+.doc-list { list-style: none; padding: 0; margin: 10px 0 0; }
+.doc-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.doc-list li:last-child { border-bottom: none; }
+.doc-list li:hover { background: var(--panel-light); }
+.doc-list .doc-info { display: flex; align-items: center; gap: 10px; overflow: hidden; }
+.doc-list .doc-info input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+.doc-list .doc-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-list .doc-badge {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--panel-light);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* ---- study tool switcher: a compact vertical list, not a grid of description
+   cards, since those competed with the stage for attention ---- */
+.tool-nav { display: flex; flex-direction: column; gap: 4px; }
+.tool-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.tool-nav-item:hover { filter: none; background: var(--panel-light); }
+.tool-nav-item.active { border-color: var(--accent); background: var(--panel-light); color: var(--accent); font-weight: 600; }
+.tool-nav-item .icon { font-size: 1.1rem; }
+.tool-nav-item.unique.active { border-color: var(--accent-2); color: var(--accent-2); }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+.topic-picker { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.topic-picker .or-row { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 0.85rem; }
+.topic-picker .or-row::before, .topic-picker .or-row::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+.chat-log { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; max-height: 420px; overflow-y: auto; }
+.msg { padding: 12px 16px; border-radius: var(--radius); max-width: 85%; }
+.msg.user { align-self: flex-end; background: var(--accent); color: var(--on-accent); }
+.msg.assistant { align-self: flex-start; background: var(--panel-light); }
+.sources { margin-top: 8px; font-size: 0.8rem; }
+.sources-toggle { padding: 3px 10px; font-size: 0.75rem; }
+.source-list { margin-top: 6px; display: flex; flex-direction: column; gap: 4px; }
+.source-list.hidden { display: none; }
+.source-item {
+  border-left: 2px solid var(--accent-2);
+  padding: 3px 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.source-item strong { color: var(--accent-2); font-weight: 600; }
+
+.chat-input-row { display: flex; gap: 10px; }
+.chat-input-row textarea { flex: 1; min-height: 50px; margin-bottom: 0; }
+
+/* a result card nested inside a panel that's already inside the outer .card. using
+   .card here too would double up the border and background, so results (quiz
+   questions, summaries) get their own flatter style instead */
+.result-block {
+  background: var(--panel-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.result-block:last-child { margin-bottom: 0; }
+.result-block ul, .msg ul { margin: 4px 0; padding-left: 22px; }
+.result-block code, .msg code {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.9em;
+}
+.result-heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.quiz-question { margin-bottom: 14px; }
+.quiz-question .q-number { color: var(--accent); font-weight: 700; margin-right: 6px; }
+.quiz-actions { display: flex; gap: 10px; margin-top: 10px; }
+
+.quiz-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.quiz-option {
+  text-align: left;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--panel-light);
+  color: var(--text);
+  cursor: pointer;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--accent); }
+.quiz-option:disabled { cursor: default; opacity: 0.85; }
+.quiz-option.correct { background: rgba(46, 160, 67, 0.25); border-color: #2ea043; }
+.quiz-option.wrong { background: rgba(220, 53, 69, 0.25); border-color: var(--danger); }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 10px; }
+.stat-tile { background: var(--panel-light); border-radius: var(--radius); padding: 16px; text-align: center; }
+.stat-tile .value { font-size: 1.8rem; font-weight: 700; color: var(--accent-2); }
+.stat-tile .label { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+.plain-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.plain-list li {
+  background: var(--panel-light);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+.plain-list .badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-right: 6px;
+}
+.plain-list .count { color: var(--accent-2); font-weight: 700; margin-left: 6px; }
+
+canvas { max-width: 100%; }
+
+/* ---- Flashcards (flip on click) ---- */
+.flashcard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.flashcard { perspective: 1000px; height: 150px; cursor: pointer; }
+.flashcard-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.5s; transform-style: preserve-3d;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  backface-visibility: hidden;
+  font-size: 0.95rem;
+}
+.flashcard-face.front { background: var(--panel-light); }
+.flashcard-face.back { background: var(--accent); color: var(--on-accent); transform: rotateY(180deg); font-weight: 600; }
+.flashcard-doc { font-size: 0.7rem; color: var(--muted); margin-top: 6px; text-align: center; }
+
+/* ---- mnemonic maker, styled a bit differently from the rest ---- */
+.mnemonic-result {
+  border: 1px solid var(--accent-2);
+  background: color-mix(in srgb, var(--accent-2) 10%, var(--panel));
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 12px;
+}
+.mnemonic-result .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-2); font-weight: 700; margin-bottom: 8px; }
+
+.spinner { color: var(--muted); font-size: 0.9rem; }
